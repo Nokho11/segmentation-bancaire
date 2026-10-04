@@ -4,3 +4,5 @@ outputs/*.npy
 outputs/*.npz
 .DS_Store
 .venv/
+# Second jeu de données : téléchargé automatiquement par le notebook 08 (trop lourd pour le dépôt)
+data/online_retail.csv.gz

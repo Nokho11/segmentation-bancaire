@@ -27,13 +27,18 @@ En appelant S2, S3 et S4 (un tiers des clients), on obtient environ deux tiers d
 La solution est choisie sur les **seuls indices internes** et la stabilité ; les indices externes
 (calculés avec `y`) servent uniquement à vérifier ce choix a posteriori.
 
-## Extensions (notebook 06)
+## Extensions (notebooks 06 à 08) — les quatre extensions du sujet
 
 - **Sensibilité au contexte** : sans les trois indicateurs économiques, seul l'historique de contact
   forme un groupe net ; à période égale, l'historique et la pression d'appels discriminent plus que
   le profil socio-démographique.
 - **Clients atypiques** (extension n° 1 du sujet) : bruit DBSCAN et Isolation Forest s'accordent sur
   un noyau de clients déjà démarchés, qui souscrivent à près de 50 %.
+- **Sélection de variables** (extension n° 2 du sujet) : filtres variance et score laplacien, wrappers
+  naïf et corrigé ; trois variables (`euribor3m`, `cons.conf.idx`, `previous`) suffisent à reproduire
+  la segmentation (ARI 0,97).
+- **Second jeu de données** (extension n° 4 du sujet) : Online Retail, segmentation RFM de 4 338 clients ;
+  K-means à 4 segments, les Champions (16 % des clients) font 65 % du chiffre d'affaires.
 - **Application Streamlit** (extension n° 3 du sujet) : affectation d'un nouveau client au segment
   le plus proche, distances aux 4 centres, alerte « client atypique » (Isolation Forest), affectation
   par lot d'un fichier CSV (format UCI accepté) avec export des résultats.
@@ -42,6 +47,7 @@ La solution est choisie sur les **seuls indices internes** et la stabilité ; le
 
 ```
 data/bank-additional-full.csv      jeu de données (séparateur ;)
+data/online_retail.csv.gz          second jeu (Online Retail, UCI), téléchargé par le notebook 08 s'il manque
 src/config.py                      graine aléatoire, taille d'échantillon, chemins
 src/preprocessing.py               prétraitement réutilisable -> prepare_all()
 src/clustering_utils.py            Gower, K-medoids, indice de Dunn, détection du coude
@@ -51,9 +57,11 @@ notebooks/03_hierarchique_densite.ipynb  Jour 3 : CAH (4 liens), DBSCAN
 notebooks/04_validation.ipynb      Jour 4 : indices internes / externes, stabilité, choix final
 notebooks/05_interpretation.ipynb  Jour 5 : profilage des segments, recommandations
 notebooks/06_extensions.ipynb      Extensions : sensibilité au contexte, clients atypiques
+notebooks/07_selection_variables.ipynb  Extension : sélection de variables (variance, score laplacien, wrappers)
+notebooks/08_online_retail_rfm.ipynb    Extension : second jeu de données, segmentation RFM
 app/streamlit_app.py               application Streamlit : affecter un nouveau client à un segment
 outputs/figures, tables, labels    figures (PNG), tableaux (CSV), partitions (CSV)
-rapport/rapport.tex, rapport.pdf   rapport LaTeX (14 pages) ; compiler avec pdflatex depuis rapport/
+rapport/rapport.tex, rapport.pdf   rapport LaTeX (15 pages) ; compiler avec pdflatex depuis rapport/
 soutenance/                        support de présentation (13 diapositives, notes orateur incluses)
 ```
 
@@ -66,8 +74,8 @@ cd notebooks
 jupyter nbconvert --to notebook --execute --inplace 0*.ipynb
 ```
 
-Les notebooks s'exécutent **dans l'ordre** (01 → 06) : les notebooks 04, 05 et 06 relisent les
-partitions enregistrées par les notebooks précédents. Durée totale : 5 à 10 minutes.
+Les notebooks s'exécutent **dans l'ordre** (01 → 08) : les notebooks 04 à 07 relisent les
+partitions enregistrées par les notebooks précédents ; le notebook 08 est indépendant. Durée totale : 5 à 10 minutes.
 
 Application (après l'exécution des notebooks, depuis la racine du dépôt) :
 
