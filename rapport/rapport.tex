@@ -54,7 +54,7 @@ par apprentissage non supervisé}\\[0.5cm]
 \vspace{0.4cm}
 
 \begin{abstract}\noindent
-Une banque souhaite cibler ses campagnes de marketing téléphonique, sans disposer d'aucune segmentation de ses clients. À partir de 41\,176 contacts décrits par des variables numériques et catégorielles, nous comparons neuf méthodes de clustering (K-means, K-medoids, K-prototypes, mélange gaussien, classification hiérarchique avec quatre liens, DBSCAN) sur deux représentations des données et plusieurs mesures de dissimilarité, dont la distance de Gower. Les partitions sont évaluées par des indices internes (silhouette, Davies-Bouldin, Dunn), externes (ARI, NMI, V-mesure) et par une étude de stabilité. La solution retenue, choisie sur les seuls indices internes et la stabilité, est une classification hiérarchique de Ward à quatre segments (silhouette 0,21 ; ARI bootstrap 0,93). Le taux de souscription varie de 5\,\% à 41\,\% selon le segment, alors que cette information n'a servi ni à construire ni à choisir les groupes : en appelant un tiers des clients, la banque obtiendrait environ deux tiers des souscriptions. Deux extensions complètent l'étude : une analyse de sensibilité au contexte économique et la détection des clients atypiques (DBSCAN, Isolation Forest).
+Une banque souhaite cibler ses campagnes de marketing téléphonique, sans disposer d'aucune segmentation de ses clients. À partir de 41\,176 contacts décrits par des variables numériques et catégorielles, nous comparons neuf méthodes de clustering (K-means, K-medoids, K-prototypes, mélange gaussien, classification hiérarchique avec quatre liens, DBSCAN) sur deux représentations des données et plusieurs mesures de dissimilarité, dont la distance de Gower. Les partitions sont évaluées par des indices internes (silhouette, Davies-Bouldin, Dunn), externes (ARI, NMI, V-mesure) et par une étude de stabilité. La solution retenue, choisie sur les seuls indices internes et la stabilité, est une classification hiérarchique de Ward à quatre segments (silhouette 0,21 ; ARI bootstrap 0,93). Le taux de souscription varie de 5\,\% à 41\,\% selon le segment, alors que cette information n'a servi ni à construire ni à choisir les groupes : en appelant un tiers des clients, la banque obtiendrait environ deux tiers des souscriptions. Les quatre extensions du sujet sont traitées : détection des clients atypiques (DBSCAN, Isolation Forest), sélection de variables (trois variables suffisent à reproduire la segmentation), application Streamlit et reproduction de l'étude sur le jeu Online Retail (segmentation RFM). Une analyse de sensibilité au contexte économique les complète.
 \end{abstract}
 
 \vspace{0.2cm}
@@ -76,7 +76,7 @@ Trois questions structurent le travail :
 \item Les segments obtenus sont-ils stables, interprétables et utiles pour le ciblage ?
 \end{enumerate}
 
-Le rapport suit le déroulement du projet : données et préparation (section~\ref{sec:donnees}), méthodologie (section~\ref{sec:methodo}), résultats (section~\ref{sec:resultats}), interprétation métier (section~\ref{sec:metier}), extensions (section~\ref{sec:extensions}), puis discussion et conclusion. L'ensemble du code est fourni sous forme de six notebooks exécutables de bout en bout, avec une graine aléatoire fixée, et d'une petite application Streamlit.
+Le rapport suit le déroulement du projet : données et préparation (section~\ref{sec:donnees}), méthodologie (section~\ref{sec:methodo}), résultats (section~\ref{sec:resultats}), interprétation métier (section~\ref{sec:metier}), extensions (section~\ref{sec:extensions}), puis discussion et conclusion. L'ensemble du code est fourni sous forme de huit notebooks exécutables de bout en bout, avec une graine aléatoire fixée, et d'une petite application Streamlit.
 
 % ------------------------------------------------------------------ 2
 \section{Données et préparation}\label{sec:donnees}
@@ -369,7 +369,7 @@ Une recommandation transversale s'ajoute : les campagnes sont beaucoup plus effi
 % ------------------------------------------------------------------ 6
 \section{Extensions}\label{sec:extensions}
 
-Cette section ne modifie pas la solution retenue. Elle mesure ce qu'elle doit au contexte économique et traite deux extensions proposées par le sujet (notebook \texttt{06\_extensions}).
+Cette section ne modifie pas la solution retenue. Elle mesure ce qu'elle doit au contexte économique et traite les quatre extensions proposées par le sujet (notebooks \texttt{06} à \texttt{08}).
 
 \subsection{Sensibilité au contexte économique}
 S1 et S2 se distinguent surtout par le taux Euribor au moment de l'appel. Pour mesurer ce que la segmentation doit à la conjoncture, nous refaisons la CAH de Ward sans les trois indicateurs de contexte (\texttt{cons.price.idx}, \texttt{cons.conf.idx}, \texttt{euribor3m}). Il reste les 12 variables qui décrivent le client et sa relation avec la banque, avec le même prétraitement et le même échantillon.
@@ -416,6 +416,41 @@ Les deux méthodes s'accordent sur 66 clients, soit 44\,\% du bruit DBSCAN (tabl
 \subsection{Application d'affectation (extension n\textsuperscript{o}~3)}
 La règle du centre le plus proche est déployée dans une application Streamlit (\texttt{app/streamlit\_app.py}). L'utilisateur saisit les 15 variables actives d'un nouveau client. L'application l'encode avec le préprocesseur ajusté sur la population, l'affecte au segment le plus proche, puis affiche le taux de souscription observé du segment et la recommandation correspondante. Elle indique aussi les distances aux quatre centres (une affectation peut être franche ou limite) et signale les clients atypiques avec l'Isolation Forest de la section précédente. Un second onglet affecte un fichier CSV entier de clients, au format brut du jeu UCI, avec les règles de nettoyage du Jour 1. Appliquée au fichier d'origine, elle reproduit à 100\,\% les segments de la population calculés au Jour 5.
 
+\subsection{Sélection de variables (extension n\textsuperscript{o}~2)}
+Quatre méthodes de sélection sont comparées avant le clustering (notebook \texttt{07}) : deux filtres, la \textbf{variance} (après mise à l'échelle sur $[0,1]$, seuil 0,01) et le \textbf{score laplacien}, qui retient les variables prenant des valeurs proches sur des clients voisins ; deux \textbf{wrappers}, qui relancent le clustering pour juger chaque sous-ensemble. Le wrapper « naïf » maximise la silhouette calculée dans le sous-espace retenu ; le wrapper « corrigé » part des 15 variables et retire à chaque étape la moins utile, en calculant toujours la silhouette dans l'espace complet. Chaque sous-ensemble est ensuite segmenté par Ward ($k=4$).
+
+\begin{table}[H]\centering\small
+\caption{Comparaison des sous-ensembles de variables (Ward, $k=4$ ; silhouette calculée dans l'espace complet).}\label{tab:selection}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Sous-ensemble} & \textbf{Colonnes} & \textbf{Silhouette} & \textbf{Stabilité} & \textbf{ARI avec la solution retenue}\\ \hline
+Toutes les variables (référence) & 37 & 0,213 & 0,93 & 1\\ \hline
+Filtre variance & 34 & 0,182 & 0,90 & 0,67\\ \hline
+Filtre laplacien (8 variables) & 12 & 0,214 & 0,97 & 0,99\\ \hline
+Wrapper naïf (\texttt{euribor3m} seule) & 1 & 0,077 & 1,00 & 0,74\\ \hline
+\textbf{Wrapper corrigé (3 variables)} & \textbf{3} & \textbf{0,213} & \textbf{0,99} & \textbf{0,97}\\ \hline
+\end{tabular}
+\end{table}
+
+Le filtre par variance est trompeur : il retire \texttt{previous}, peu variable car 86\,\% des clients n'ont jamais été démarchés, et fait ainsi disparaître le segment S3. Le wrapper naïf est piégé par son critère : une silhouette calculée sur une seule variable est mécaniquement élevée (0,89), mais la partition est médiocre dès qu'on la juge sur l'ensemble des données. Le score laplacien et le wrapper corrigé convergent : \textbf{trois variables} (\texttt{euribor3m}, \texttt{cons.conf.idx}, \texttt{previous}) suffisent à reproduire la segmentation (ARI 0,97) avec la même qualité. Cela confirme, par une autre voie, que la structure repose sur le contexte économique et l'historique de contact. Les 15 variables restent utiles pour \emph{décrire} les segments.
+
+\subsection{Second jeu de données : Online Retail (extension n\textsuperscript{o}~4)}
+La démarche est reproduite sur le jeu \emph{Online Retail} (UCI, factures d'un distributeur en ligne britannique, 2010--2011 ; notebook \texttt{08}). Après nettoyage (lignes sans client, annulations, quantités ou prix négatifs, doublons), 392\,692 lignes décrivent 4\,338 clients. Chacun est résumé par ses variables \textbf{RFM} : récence du dernier achat, fréquence (nombre de factures) et montant total. F et M ayant des queues très longues, elles sont passées au logarithme avant standardisation. Cinq méthodes sont comparées (K-means, K-medoids, GMM, Ward, DBSCAN) avec les mêmes indices ; la segmentation RFM « classique » par quintiles sert de référence externe.
+
+\begin{table}[H]\centering\small
+\caption{Online Retail : solution retenue (K-means, $k=4$ ; silhouette 0,34 ; stabilité 0,91).}\label{tab:rfm}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Segment} & \textbf{Clients} & \textbf{CA} & \textbf{Récence} & \textbf{Factures} & \textbf{Montant}\\ \hline
+Champions        & 16\,\% & \textbf{65\,\%} & 8 j   & 10 & 3\,750 £\\ \hline
+Réguliers        & 27\,\% & 24\,\% & 54 j  & 4  & 1\,352 £\\ \hline
+Nouveaux clients & 19\,\% & 5\,\%  & 16 j  & 2  & 480 £\\ \hline
+Perdus           & 38\,\% & 6\,\%  & 173 j & 1  & 297 £\\ \hline
+\end{tabular}
+\end{table}
+
+Les leçons du jeu bancaire se retrouvent : transformation des variables asymétriques indispensable, structure en continuum (indice de Dunn presque nul), choix de $k$ par compromis. Une différence est instructive : ici \textbf{K-means est très stable} (ARI bootstrap 0,91 à $k=4$) et \textbf{Ward instable} (0,42), l'inverse du jeu bancaire. Avec trois variables continues et des groupes de forme ronde, K-means est dans son domaine. Les recommandations suivent les profils (tableau~\ref{tab:rfm}) : fidéliser les Champions, faire monter les Réguliers, transformer l'essai des Nouveaux clients, et réserver aux Perdus des relances automatisées peu coûteuses.
+
 % ------------------------------------------------------------------ 7
 \section{Discussion}
 
@@ -427,14 +462,14 @@ La règle du centre le plus proche est déployée dans une application Streamlit
 
 \textbf{Ce que chaque méthode a apporté.} Aucune méthode n'est inutile. K-means et K-prototypes confirment la structure principale ; Gower montre que cette structure dépend du poids donné au contexte ; les liens \emph{average} et \emph{complete} et DBSCAN révèlent des niches et des clients atypiques ; le mélange gaussien rappelle qu'un critère comme le BIC ne vaut que si l'hypothèse du modèle tient.
 
-\textbf{Pistes.} Comparer plusieurs méthodes de sélection de variables avant le clustering ; reproduire l'étude sur un second jeu de données (par exemple une segmentation RFM) ; enrichir le fichier client (revenu, encours, ancienneté) pour obtenir des profils moins dépendants de la conjoncture.
+\textbf{Pistes.} Enrichir le fichier client (revenu, encours, ancienneté) pour obtenir des profils moins dépendants de la conjoncture ; suivre la stabilité des segments d'une campagne à l'autre ; tester la règle d'affectation à trois variables en conditions réelles.
 
 % ------------------------------------------------------------------ 7
 \section{Conclusion}
 
-À partir de données mixtes et sans utiliser la variable de souscription, nous avons construit une segmentation en quatre groupes par classification hiérarchique de Ward. Elle offre le meilleur compromis entre qualité statistique (silhouette 0,21 ; Davies-Bouldin 1,73), stabilité (ARI bootstrap 0,93) et besoin métier. Les segments ont des taux de souscription allant de 5\,\% à 41\,\% : un tiers des clients concentre deux tiers des souscriptions. L'analyse de sensibilité rappelle qu'une partie de cet écart tient à la période du contact. Les clients atypiques repérés par DBSCAN et l'Isolation Forest forment un petit vivier très réceptif.
+À partir de données mixtes et sans utiliser la variable de souscription, nous avons construit une segmentation en quatre groupes par classification hiérarchique de Ward. Elle offre le meilleur compromis entre qualité statistique (silhouette 0,21 ; Davies-Bouldin 1,73), stabilité (ARI bootstrap 0,93) et besoin métier. Les segments ont des taux de souscription allant de 5\,\% à 41\,\% : un tiers des clients concentre deux tiers des souscriptions. L'analyse de sensibilité rappelle qu'une partie de cet écart tient à la période du contact. Les clients atypiques repérés par DBSCAN et l'Isolation Forest forment un petit vivier très réceptif. Reproduite sur le jeu Online Retail, la démarche donne quatre segments RFM dont un, les Champions (16\,\% des clients), porte 65\,\% du chiffre d'affaires.
 
-Sur le plan de la méthode, trois enseignements se dégagent. La standardisation et le choix de la distance changent réellement les groupes. Un indice de qualité ne se lit jamais seul : les partitions les mieux notées en silhouette étaient ici les moins utiles. Enfin, le nombre de groupes est un compromis entre ce que disent les données et ce dont le métier a besoin, et ce compromis doit être énoncé clairement.
+Sur le plan de la méthode, trois enseignements se dégagent. La standardisation et le choix de la distance changent réellement les groupes. Un indice de qualité ne se lit jamais seul : les partitions les mieux notées en silhouette étaient ici les moins utiles. Le nombre de groupes est un compromis entre ce que disent les données et ce dont le métier a besoin, et ce compromis doit être énoncé clairement. Enfin, aucune méthode n'est la meilleure en général : Ward l'emporte sur les données bancaires mixtes, K-means sur les variables RFM continues.
 
 \section*{Références}
 \begin{itemize}
@@ -443,6 +478,8 @@ Sur le plan de la méthode, trois enseignements se dégagent. La standardisation
 \item Z. Huang (1998). \emph{Extensions to the k-means algorithm for clustering large data sets with categorical values}. Data Mining and Knowledge Discovery, 2, 283--304.
 \item M. Ester, H.-P. Kriegel, J. Sander, X. Xu (1996). \emph{A density-based algorithm for discovering clusters in large spatial databases with noise}. KDD-96.
 \item P. J. Rousseeuw (1987). \emph{Silhouettes: a graphical aid to the interpretation and validation of cluster analysis}. Journal of Computational and Applied Mathematics, 20, 53--65.
+\item D. Chen, S. L. Sain, K. Guo (2012). \emph{Data mining for the online retail industry: a case study of RFM model-based customer segmentation using data mining}. Journal of Database Marketing \& Customer Strategy Management, 19(3), 197--208. Jeu de données \emph{Online Retail}, UCI Machine Learning Repository.
+\item X. He, D. Cai, P. Niyogi (2005). \emph{Laplacian score for feature selection}. Advances in Neural Information Processing Systems 18.
 \item F. Pedregosa et al. (2011). \emph{Scikit-learn: Machine Learning in Python}. Journal of Machine Learning Research, 12, 2825--2830.
 \item Support de cours « Apprentissage non supervisé », Master BDA/IA, UN-CHK.
 \end{itemize}
