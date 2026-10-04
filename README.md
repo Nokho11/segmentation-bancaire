@@ -35,7 +35,8 @@ La solution est choisie sur les **seuls indices internes** et la stabilité ; le
 - **Clients atypiques** (extension n° 1 du sujet) : bruit DBSCAN et Isolation Forest s'accordent sur
   un noyau de clients déjà démarchés, qui souscrivent à près de 50 %.
 - **Application Streamlit** (extension n° 3 du sujet) : affectation d'un nouveau client au segment
-  le plus proche.
+  le plus proche, distances aux 4 centres, alerte « client atypique » (Isolation Forest), affectation
+  par lot d'un fichier CSV (format UCI accepté) avec export des résultats.
 
 ## Organisation du dépôt
 
@@ -52,8 +53,8 @@ notebooks/05_interpretation.ipynb  Jour 5 : profilage des segments, recommandati
 notebooks/06_extensions.ipynb      Extensions : sensibilité au contexte, clients atypiques
 app/streamlit_app.py               application Streamlit : affecter un nouveau client à un segment
 outputs/figures, tables, labels    figures (PNG), tableaux (CSV), partitions (CSV)
-rapport/rapport.tex, rapport.pdf   rapport LaTeX (12 pages) ; compiler avec pdflatex depuis rapport/
-soutenance/                        support de présentation (16 diapositives, notes orateur incluses)
+rapport/rapport.tex, rapport.pdf   rapport LaTeX (14 pages) ; compiler avec pdflatex depuis rapport/
+soutenance/                        support de présentation (13 diapositives, notes orateur incluses)
 ```
 
 ## Installation et exécution

@@ -9,7 +9,7 @@ kmodes>=0.12.2
 gower>=0.1.2
 jupyter
 nbconvert
-streamlit>=1.30
+streamlit>=1.50
 
 # Optionnel : scikit-learn-extra (K-medoids), cité dans le sujet.
 # La bibliothèque n'est plus maintenue et ne fonctionne qu'avec numpy<2.
