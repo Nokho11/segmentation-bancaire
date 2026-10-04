@@ -1,0 +1,22 @@
+variable,type statistique,famille,description,nb valeurs distinctes
+age,quantitative discrète,client,âge en années,78
+job,qualitative nominale,client,profession (12 modalités),12
+marital,qualitative nominale,client,statut marital,4
+education,qualitative ordinale,client,niveau d'études,8
+default,binaire (+ unknown),client,crédit en défaut ?,3
+housing,binaire,client,prêt immobilier ?,3
+loan,binaire,client,prêt personnel ?,3
+contact,binaire,campagne,canal : cellular / telephone,2
+month,qualitative ordinale,campagne,mois du dernier contact,10
+day_of_week,qualitative ordinale,campagne,jour du dernier contact,5
+duration,quantitative continue,campagne,durée du dernier appel (s),1544
+campaign,quantitative discrète,campagne,nb de contacts pendant cette campagne,42
+pdays,quantitative discrète,historique,jours depuis le dernier contact (999 = jamais),27
+previous,quantitative discrète,historique,nb de contacts avant cette campagne,8
+poutcome,qualitative nominale,historique,résultat de la campagne précédente,3
+emp.var.rate,quantitative continue,contexte,taux de variation de l'emploi,10
+cons.price.idx,quantitative continue,contexte,indice des prix à la consommation,26
+cons.conf.idx,quantitative continue,contexte,indice de confiance des ménages,26
+euribor3m,quantitative continue,contexte,taux Euribor 3 mois,316
+nr.employed,quantitative continue,contexte,nombre d'employés (milliers),11
+y,binaire,cible,souscription au dépôt à terme (vérité terrain),2

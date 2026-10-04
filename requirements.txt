@@ -1,0 +1,17 @@
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+scikit-learn>=1.4
+matplotlib>=3.8
+seaborn>=0.13
+umap-learn>=0.5.5
+kmodes>=0.12.2
+gower>=0.1.2
+jupyter
+nbconvert
+streamlit>=1.30
+
+# Optionnel : scikit-learn-extra (K-medoids), cité dans le sujet.
+# La bibliothèque n'est plus maintenue et ne fonctionne qu'avec numpy<2.
+# Sans elle, le projet utilise automatiquement l'implémentation de src/clustering_utils.py.
+# scikit-learn-extra==0.3.0

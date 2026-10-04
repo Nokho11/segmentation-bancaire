@@ -1,0 +1,11 @@
+,bruit DBSCAN,Isolation Forest,les deux,clients ordinaires
+nb de clients,150.0,150.0,66.0,3766.0
+taux de souscription (%),49.33,46.0,56.06,9.16
+âge moyen,49.28,43.28,48.52,39.85
+appels (campagne),3.46,2.02,2.05,2.41
+contacts antérieurs,1.55,1.68,2.45,0.11
+Euribor moyen,1.18,1.13,0.89,3.77
+succès précédent (%),36.67,57.33,69.7,0.93
+déjà démarché (%),42.0,62.0,78.79,0.96
+retraité ou étudiant (%),34.0,30.0,45.45,5.18
+téléphone fixe (%),16.67,9.33,9.09,36.86
