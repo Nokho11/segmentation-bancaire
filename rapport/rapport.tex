@@ -261,7 +261,7 @@ Cette comparaison éclaire les limites de K-means. Ses clusters sont convexes pa
 
 \subsection{Validation et choix de la solution}\label{sec:valid}
 
-\paragraph{Indices internes.} La structure la plus nette est à $k=2$ pour presque toutes les méthodes (silhouette de 0,23 à 0,24). Au-delà, Ward est la méthode qui se dégrade le moins (figure~\ref{fig:internes}). Les valeurs restent modestes : les segments se chevauchent, comme l'annonçaient les projections.
+\paragraph{Indices internes.} La structure la plus nette est à $k=2$ pour presque toutes les méthodes (silhouette de 0,23 à 0,24). Au-delà, Ward est la méthode qui se dégrade le moins (figure~\ref{fig:internes}). Les dix méthodes sont évaluées pour $k$ de 2 à 6 (sauf DBSCAN, qui fixe lui-même son nombre de clusters) : pour toutes ces valeurs, les liens \emph{single}, \emph{complete} et \emph{average} gardent un plus petit cluster de moins de 2\,\% des clients, malgré des silhouettes de 0,22 à 0,51. Les valeurs restent modestes : les segments se chevauchent, comme l'annonçaient les projections.
 
 \begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{04_indices_internes.png}
