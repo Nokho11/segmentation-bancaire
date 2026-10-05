@@ -270,7 +270,7 @@ Cette comparaison éclaire les limites de K-means. Ses clusters sont convexes pa
 
 \paragraph{Indices externes.} L'accord avec \texttt{y} est faible pour toutes les méthodes (ARI inférieur à 0,25). C'est attendu : \texttt{y} est binaire et très déséquilibrée, et une segmentation de clientèle n'a pas vocation à reproduire ce découpage. Les valeurs ne sont pourtant pas nulles, et surtout les taux de souscription diffèrent fortement d'un segment à l'autre (de 5\,\% à 40\,\%).
 
-\paragraph{Stabilité.} Avec une seule initialisation, l'ARI moyen entre 20 exécutions de K-means va de 0,69 à 0,88, avec des minimums proches de 0,35 : cela justifie les 10 initialisations utilisées partout ailleurs. Le bootstrap (figure~\ref{fig:stab}) montre que K-means est très stable pour $k=2$ et $k=3$ (0,997 et 0,98), mais \textbf{instable pour $k=4$ et $k=5$} (0,72 et 0,65). Ward décroît régulièrement : 0,99, 0,96, \textbf{0,93 à $k=4$}, 0,86, 0,71.
+\paragraph{Stabilité.} Avec une seule initialisation, l'ARI moyen entre 20 exécutions de K-means va de 0,69 à 0,88, avec des minimums proches de 0,35 : cela justifie les 10 initialisations utilisées partout ailleurs. Le bootstrap (figure~\ref{fig:stab}) montre que K-means est très stable pour $k=2$ et $k=3$ (0,997 et 0,98), mais \textbf{instable pour $k=4$ et $k=5$} (0,71 et 0,65). Ward décroît régulièrement : 0,99, 0,96, \textbf{0,93 à $k=4$}, 0,86, 0,71.
 
 \begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{04_stabilite.png}
@@ -297,7 +297,7 @@ K-medoids (Gower)  & 4 & 0,042 & 0,103 & 3,86 & 0,008 & 9,25 & 0,002\\ \hline
 \end{tabular}
 \end{table}
 
-La \textbf{CAH de Ward à quatre segments} arrive nettement en tête (tableau~\ref{tab:synthese}) : meilleure silhouette euclidienne, meilleur Davies-Bouldin et meilleur Dunn parmi les candidats, et troisième en silhouette de Gower, à 0,002 de la meilleure. Elle est aussi la plus stable : ARI bootstrap de 0,93 contre 0,72 pour K-means au même $k$. Sa silhouette (0,21) reste proche de celle de la structure à deux groupes (0,23) : on gagne deux segments sans perdre beaucoup en netteté.
+La \textbf{CAH de Ward à quatre segments} arrive nettement en tête (tableau~\ref{tab:synthese}) : meilleure silhouette euclidienne, meilleur Davies-Bouldin et meilleur Dunn parmi les candidats, et troisième en silhouette de Gower, à 0,002 de la meilleure. Elle est aussi la plus stable : ARI bootstrap de 0,93 contre 0,71 pour K-means au même $k$. Sa silhouette (0,21) reste proche de celle de la structure à deux groupes (0,23) : on gagne deux segments sans perdre beaucoup en netteté.
 
 Les indices externes, consultés seulement ensuite, confirment ce choix : Ward à $k=4$ a le meilleur ARI des candidats. Les ajouter au classement ne changerait pas le vainqueur.
 
