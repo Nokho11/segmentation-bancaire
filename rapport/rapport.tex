@@ -166,7 +166,7 @@ DBSCAN & 5 axes de la PCA & Clusters = zones denses ; $\varepsilon$ réglé par 
 \end{tabularx}
 \end{table}
 
-\textbf{Remarque d'implémentation.} La bibliothèque \texttt{scikit-learn-extra}, indiquée dans le sujet pour K-medoids, n'est plus maintenue et ne s'importe pas avec NumPy~2. Le code l'utilise si elle est disponible et bascule sinon sur une implémentation personnelle du même algorithme (alternance affectation / mise à jour des médoïdes, initialisation de type \emph{k-medoids++}).
+\textbf{Remarque d'implémentation.} La bibliothèque \texttt{scikit-learn-extra}, indiquée dans le sujet pour K-medoids, n'est plus maintenue : elle ne s'importe pas avec NumPy~2 et n'est distribuée que jusqu'à Python~3.11, alors que le projet tourne sous Python~3.13. Le code l'utilise si elle est disponible et bascule sinon sur une implémentation personnelle du même algorithme (alternance affectation / mise à jour des médoïdes, initialisation de type \emph{k-medoids++}).
 
 \subsection{Validation}
 \begin{itemize}
