@@ -43,6 +43,17 @@ La solution est choisie sur les **seuls indices internes** et la stabilité ; le
   le plus proche, distances aux 4 centres, alerte « client atypique » (Isolation Forest), affectation
   par lot d'un fichier CSV (format UCI accepté) avec export des résultats.
 
+## Notebooks : séparés et regroupés
+
+Le code existe sous **deux formes, au contenu identique** :
+
+- **huit notebooks séparés**, un par étape (`01_preparation.ipynb` à `08_online_retail_rfm.ipynb`).
+  Ce sont les livrables demandés par le sujet (un notebook par jour, aux noms imposés pour les Jours 1 à 4) ;
+- **un notebook regroupé**, `notebooks/projet_complet.ipynb`, qui réunit les huit dans l'ordre, sous un sommaire,
+  pour parcourir tout le projet d'un seul tenant.
+
+On peut utiliser l'un ou l'autre : les cellules et les résultats sont les mêmes.
+
 ## Organisation du dépôt
 
 ```
@@ -59,6 +70,7 @@ notebooks/05_interpretation.ipynb  Jour 5 : profilage des segments, recommandati
 notebooks/06_extensions.ipynb      Extensions : sensibilité au contexte, clients atypiques
 notebooks/07_selection_variables.ipynb  Extension : sélection de variables (variance, score laplacien, wrappers)
 notebooks/08_online_retail_rfm.ipynb    Extension : second jeu de données, segmentation RFM
+notebooks/projet_complet.ipynb     les notebooks 01 à 08 réunis en un seul, dans l'ordre
 app/streamlit_app.py               application Streamlit : affecter un nouveau client à un segment
 outputs/figures, tables, labels    figures (PNG), tableaux (CSV), partitions (CSV)
 rapport/rapport.tex, rapport.pdf   rapport LaTeX (15 pages) ; compiler avec pdflatex depuis rapport/
@@ -76,6 +88,9 @@ jupyter nbconvert --to notebook --execute --inplace 0*.ipynb
 
 Les notebooks s'exécutent **dans l'ordre** (01 → 08) : les notebooks 04 à 07 relisent les
 partitions enregistrées par les notebooks précédents ; le notebook 08 est indépendant. Durée totale : 5 à 10 minutes.
+
+Pour tout parcourir d'un seul tenant : ouvrir `notebooks/projet_complet.ipynb` (mêmes cellules que les
+notebooks 01 à 08 réunies) et lancer *Run → Run All Cells*.
 
 Application (après l'exécution des notebooks, depuis la racine du dépôt) :
 
