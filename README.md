@@ -74,7 +74,7 @@ notebooks/projet_complet.ipynb     les notebooks 01 à 08 réunis en un seul, da
 app/streamlit_app.py               application Streamlit : affecter un nouveau client à un segment
 outputs/figures, tables, labels    figures (PNG), tableaux (CSV), partitions (CSV)
 rapport/rapport.tex, rapport.pdf   rapport LaTeX (15 pages) ; compiler avec pdflatex depuis rapport/
-soutenance/                        support de présentation (13 diapositives, notes orateur incluses)
+soutenance/                        support de présentation (20 diapositives)
 ```
 
 ## Installation et exécution
